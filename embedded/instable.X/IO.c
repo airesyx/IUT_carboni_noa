@@ -21,13 +21,17 @@ void InitIO()
     // Configuration des sorties
 
     //******* LED ***************************
-    _TRISJ6 = 0;  // LED Orange
-    _TRISJ5 = 0; //LED Blanche
-    _TRISJ4 = 0; // LED Bleue
-    _TRISJ11 = 0; // LED Rouge
-    _TRISH10 = 0; // LED Verte 
+    _TRISJ6 = 0;  // LED Blanche_1
+    _TRISJ5 = 0; //LED Bleue_1
+    _TRISJ4 = 0; // LED Orange_1
+    _TRISJ11 = 0; // LED Rouge_1
+    _TRISH10 = 0; // LED Verte_1
     
-
+    _TRISA0 = 0;  // LED Blanche_2
+    _TRISA9 = 0; //LED Bleue_2
+    _TRISK15 = 0; // LED Orange_2
+    _TRISA10 = 0; // LED Rouge_2
+    _TRISH3 = 0; // LED Verte_2
     
     //****** Moteurs ************************
 
