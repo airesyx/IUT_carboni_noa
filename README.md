@@ -1,2 +1,2 @@
-# Instable_2nd
-Grand successeur à l'Instable. Grand Rois de l'instabilité.
+# Instable_The_2nd
+Grand successeur à l'Instable, Grand Rois de l'instabilité.
