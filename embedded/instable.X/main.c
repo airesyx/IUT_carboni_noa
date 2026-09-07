@@ -3,9 +3,16 @@
 #include <xc.h>
 #include "ChipConfig.h"
 #include "IO.h"
+#include "timer.h"
+
 int main (void){
 //Initialisation oscillateur
 InitOscillator();
+
+//Initialisation des teamer
+InitTimer1();
+InitTimer23();
+
 // Configuration des input et output (IO)
 InitIO();
 LED_BLANCHE_1 = 1;
