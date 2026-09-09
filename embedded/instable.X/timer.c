@@ -1,6 +1,7 @@
 #include <xc.h>
 #include "timer.h"
 #include "IO.h"
+#include "PWM.h"
 //Initialisation d?un timer 16 bits
 
 void InitTimer1(void) {
@@ -21,7 +22,7 @@ void InitTimer1(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
-    LED_BLANCHE_1 = !LED_BLANCHE_1;
+    //LED_BLANCHE_1 = !LED_BLANCHE_1;
 }
 //Initialisation d?un timer 32 bits
 
@@ -45,4 +46,67 @@ void InitTimer23(void) {
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
     LED_ORANGE_1 = !LED_ORANGE_1;
+#if(0)
+    static uint8_t cs_count = 0;
+    
+    switch(cs_count){
+        case 0 : 
+            PWMSetSpeed(10, MOTEUR_DROIT);
+            PWMSetSpeed(-10, MOTEUR_GAUCHE);
+            cs_count += 1;
+        break;
+        
+        case 1 : 
+            PWMSetSpeed(15, MOTEUR_DROIT);
+            PWMSetSpeed(-15, MOTEUR_GAUCHE);
+            cs_count += 1;
+        break;
+        
+        case 2 : 
+            PWMSetSpeed(20, MOTEUR_DROIT);
+            PWMSetSpeed(-20, MOTEUR_GAUCHE);
+            cs_count += 1;
+        break;
+        
+        case 3 : 
+            PWMSetSpeed(25, MOTEUR_DROIT);
+            PWMSetSpeed(-25, MOTEUR_GAUCHE);
+            cs_count += 1;
+        break;
+        
+        case 4 : 
+            PWMSetSpeed(0, MOTEUR_DROIT);
+            PWMSetSpeed(0, MOTEUR_GAUCHE);
+            cs_count += 1;
+        break;
+        
+        case 5 :
+            PWMSetSpeed(-10, MOTEUR_DROIT);
+            PWMSetSpeed(10, MOTEUR_GAUCHE);
+            cs_count += 1;
+        break;
+        case 6 :
+            PWMSetSpeed(-15, MOTEUR_DROIT);
+            PWMSetSpeed(15, MOTEUR_GAUCHE);
+            cs_count += 1;
+        break;
+        case 7 :
+            PWMSetSpeed(-20, MOTEUR_DROIT);
+            PWMSetSpeed(20, MOTEUR_GAUCHE);
+            cs_count += 1;
+        break;
+        case 8 :
+            PWMSetSpeed(-25, MOTEUR_DROIT);
+            PWMSetSpeed(25, MOTEUR_GAUCHE);
+            cs_count += 1;
+        break;
+        case 9 :
+            PWMSetSpeed(0, MOTEUR_DROIT);
+            PWMSetSpeed(0, MOTEUR_GAUCHE);
+            cs_count = 0;
+        break;
+        
+    }
+    
+#endif
 }

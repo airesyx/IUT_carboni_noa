@@ -24,7 +24,26 @@ void InitPWM(void) {
 }
 
 double talon = 50;
-void PWMSetSpeed(float vitesseEnPourcents) {
-    PDC1 = vitesseEnPourcents * PWMPER + talon;
-    SDC1 = talon;
+void PWMSetSpeed(float vitesseEnPourcents, uint8_t selMotor){
+    
+    if(selMotor == MOTEUR_GAUCHE){
+        if(vitesseEnPourcents >= 0){
+            PDC1 = vitesseEnPourcents * PWMPER + talon;
+            SDC1 = talon; 
+        }
+        else {
+            PDC1 = talon;
+            SDC1 = -vitesseEnPourcents * PWMPER + talon;
+        }
+    }
+    else if (selMotor == MOTEUR_DROIT){
+        if(vitesseEnPourcents >= 0){
+            PDC2 = vitesseEnPourcents * PWMPER + talon;
+            SDC2 = talon; 
+        }
+        else {
+            PDC2 = talon;
+            SDC2 = -vitesseEnPourcents * PWMPER + talon;
+        }
+    }
 }
