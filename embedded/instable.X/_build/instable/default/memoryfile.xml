@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <executable name="D:\proj\IUT_carboni_noa\embedded\instable.X\out\instable\default.elf">
+    <memory name="data">
+      <units>bytes</units>
+      <length>53248</length>
+      <used>24</used>
+      <free>53224</free>
+    </memory>
+    <memory name="program">
+      <units>bytes</units>
+      <length>524544</length>
+      <used>4437</used>
+      <free>520107</free>
+    </memory>
+  </executable>
+</project>

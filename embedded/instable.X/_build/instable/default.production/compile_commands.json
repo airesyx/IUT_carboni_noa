@@ -1,0 +1,44 @@
+[
+{
+  "directory": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production",
+  "command": "\"c:\\Program Files\\Microchip\\xc16\\v2.10\\bin\\xc16-gcc.exe\" -DXPRJ_default=default -D__MPLAB_DEBUGGER_ICD4=1 -ID:/proj/IUT_carboni_noa/embedded/instable.X/cmake/instable/default.production/../../.. -x c -g -mcpu=33EP512MU814 -O0 -msmart-io=1 -Wall -msfr-warn=off -mdfp=D:/Tools/IDE/VSCode-win32-x64-1.136.1/data/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.6.297/xc16 -o CMakeFiles\\instable_default_default_XC16_compile.dir\\D_\\proj\\IUT_carboni_noa\\embedded\\instable.X\\ChipConfig.c.o -c D:\\proj\\IUT_carboni_noa\\embedded\\instable.X\\ChipConfig.c",
+  "file": "D:/proj/IUT_carboni_noa/embedded/instable.X/ChipConfig.c",
+  "output": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production/CMakeFiles/instable_default_default_XC16_compile.dir/D_/proj/IUT_carboni_noa/embedded/instable.X/ChipConfig.c.o"
+},
+{
+  "directory": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production",
+  "command": "\"c:\\Program Files\\Microchip\\xc16\\v2.10\\bin\\xc16-gcc.exe\" -DXPRJ_default=default -D__MPLAB_DEBUGGER_ICD4=1 -ID:/proj/IUT_carboni_noa/embedded/instable.X/cmake/instable/default.production/../../.. -x c -g -mcpu=33EP512MU814 -O0 -msmart-io=1 -Wall -msfr-warn=off -mdfp=D:/Tools/IDE/VSCode-win32-x64-1.136.1/data/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.6.297/xc16 -o CMakeFiles\\instable_default_default_XC16_compile.dir\\D_\\proj\\IUT_carboni_noa\\embedded\\instable.X\\IO.c.o -c D:\\proj\\IUT_carboni_noa\\embedded\\instable.X\\IO.c",
+  "file": "D:/proj/IUT_carboni_noa/embedded/instable.X/IO.c",
+  "output": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production/CMakeFiles/instable_default_default_XC16_compile.dir/D_/proj/IUT_carboni_noa/embedded/instable.X/IO.c.o"
+},
+{
+  "directory": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production",
+  "command": "\"c:\\Program Files\\Microchip\\xc16\\v2.10\\bin\\xc16-gcc.exe\" -DXPRJ_default=default -D__MPLAB_DEBUGGER_ICD4=1 -ID:/proj/IUT_carboni_noa/embedded/instable.X/cmake/instable/default.production/../../.. -x c -g -mcpu=33EP512MU814 -O0 -msmart-io=1 -Wall -msfr-warn=off -mdfp=D:/Tools/IDE/VSCode-win32-x64-1.136.1/data/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.6.297/xc16 -o CMakeFiles\\instable_default_default_XC16_compile.dir\\D_\\proj\\IUT_carboni_noa\\embedded\\instable.X\\PWM.c.o -c D:\\proj\\IUT_carboni_noa\\embedded\\instable.X\\PWM.c",
+  "file": "D:/proj/IUT_carboni_noa/embedded/instable.X/PWM.c",
+  "output": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production/CMakeFiles/instable_default_default_XC16_compile.dir/D_/proj/IUT_carboni_noa/embedded/instable.X/PWM.c.o"
+},
+{
+  "directory": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production",
+  "command": "\"c:\\Program Files\\Microchip\\xc16\\v2.10\\bin\\xc16-gcc.exe\" -DXPRJ_default=default -D__MPLAB_DEBUGGER_ICD4=1 -ID:/proj/IUT_carboni_noa/embedded/instable.X/cmake/instable/default.production/../../.. -x c -g -mcpu=33EP512MU814 -O0 -msmart-io=1 -Wall -msfr-warn=off -mdfp=D:/Tools/IDE/VSCode-win32-x64-1.136.1/data/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.6.297/xc16 -o CMakeFiles\\instable_default_default_XC16_compile.dir\\D_\\proj\\IUT_carboni_noa\\embedded\\instable.X\\Robot.c.o -c D:\\proj\\IUT_carboni_noa\\embedded\\instable.X\\Robot.c",
+  "file": "D:/proj/IUT_carboni_noa/embedded/instable.X/Robot.c",
+  "output": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production/CMakeFiles/instable_default_default_XC16_compile.dir/D_/proj/IUT_carboni_noa/embedded/instable.X/Robot.c.o"
+},
+{
+  "directory": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production",
+  "command": "\"c:\\Program Files\\Microchip\\xc16\\v2.10\\bin\\xc16-gcc.exe\" -DXPRJ_default=default -D__MPLAB_DEBUGGER_ICD4=1 -ID:/proj/IUT_carboni_noa/embedded/instable.X/cmake/instable/default.production/../../.. -x c -g -mcpu=33EP512MU814 -O0 -msmart-io=1 -Wall -msfr-warn=off -mdfp=D:/Tools/IDE/VSCode-win32-x64-1.136.1/data/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.6.297/xc16 -o CMakeFiles\\instable_default_default_XC16_compile.dir\\D_\\proj\\IUT_carboni_noa\\embedded\\instable.X\\Toolbox.c.o -c D:\\proj\\IUT_carboni_noa\\embedded\\instable.X\\Toolbox.c",
+  "file": "D:/proj/IUT_carboni_noa/embedded/instable.X/Toolbox.c",
+  "output": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production/CMakeFiles/instable_default_default_XC16_compile.dir/D_/proj/IUT_carboni_noa/embedded/instable.X/Toolbox.c.o"
+},
+{
+  "directory": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production",
+  "command": "\"c:\\Program Files\\Microchip\\xc16\\v2.10\\bin\\xc16-gcc.exe\" -DXPRJ_default=default -D__MPLAB_DEBUGGER_ICD4=1 -ID:/proj/IUT_carboni_noa/embedded/instable.X/cmake/instable/default.production/../../.. -x c -g -mcpu=33EP512MU814 -O0 -msmart-io=1 -Wall -msfr-warn=off -mdfp=D:/Tools/IDE/VSCode-win32-x64-1.136.1/data/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.6.297/xc16 -o CMakeFiles\\instable_default_default_XC16_compile.dir\\D_\\proj\\IUT_carboni_noa\\embedded\\instable.X\\main.c.o -c D:\\proj\\IUT_carboni_noa\\embedded\\instable.X\\main.c",
+  "file": "D:/proj/IUT_carboni_noa/embedded/instable.X/main.c",
+  "output": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production/CMakeFiles/instable_default_default_XC16_compile.dir/D_/proj/IUT_carboni_noa/embedded/instable.X/main.c.o"
+},
+{
+  "directory": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production",
+  "command": "\"c:\\Program Files\\Microchip\\xc16\\v2.10\\bin\\xc16-gcc.exe\" -DXPRJ_default=default -D__MPLAB_DEBUGGER_ICD4=1 -ID:/proj/IUT_carboni_noa/embedded/instable.X/cmake/instable/default.production/../../.. -x c -g -mcpu=33EP512MU814 -O0 -msmart-io=1 -Wall -msfr-warn=off -mdfp=D:/Tools/IDE/VSCode-win32-x64-1.136.1/data/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.6.297/xc16 -o CMakeFiles\\instable_default_default_XC16_compile.dir\\D_\\proj\\IUT_carboni_noa\\embedded\\instable.X\\timer.c.o -c D:\\proj\\IUT_carboni_noa\\embedded\\instable.X\\timer.c",
+  "file": "D:/proj/IUT_carboni_noa/embedded/instable.X/timer.c",
+  "output": "D:/proj/IUT_carboni_noa/embedded/instable.X/_build/instable/default.production/CMakeFiles/instable_default_default_XC16_compile.dir/D_/proj/IUT_carboni_noa/embedded/instable.X/timer.c.o"
+}
+]
