@@ -138,7 +138,6 @@ void OperatingSystemLoop(void){
     }
 }
 
-
 unsigned char nextStateRobot=0;
 void SetNextRobotStateInAutomaticMode(void){
     unsigned char positionObstacle = PAS_D_OBSTACLE;
