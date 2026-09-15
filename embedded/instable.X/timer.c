@@ -1,4 +1,5 @@
 #include <xc.h>
+#include "main.h"
 #include "timer.h"
 #include "IO.h"
 #include "PWM.h"
@@ -10,13 +11,8 @@
 void InitTimer1(void) {
     //Timer1 pour horodater les mesures (1ms)
     T1CONbits.TON = 0; // Disable Timer
-    T1CONbits.TCKPS = 0b10; //Prescaler
-    //11 = 1:256 prescale value
-    //10 = 1:64 prescale value
-    //01 = 1:8 prescale value
-    //00 = 1:1 prescale value
     T1CONbits.TCS = 0; //clock source = internal clock
-    PR1 = 0x0249F;
+    SetFreqTimer1(50);
     IFS0bits.T1IF = 0; // Clear Timer Interrupt Flag
     IEC0bits.T1IE = 1; // Enable Timer interrupt
     T1CONbits.TON = 1; // Enable Timer
@@ -27,7 +23,6 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     PWMUpdateSpeed();
     ADC1StartConversionSequence();
-    LED_BLANCHE_1 = !LED_BLANCHE_1;
 }
 //Initialisation d?un timer 32 bits
 
@@ -47,71 +42,63 @@ void InitTimer23(void) {
     T2CONbits.TON = 1; // Start 32-bit Timer
 }
 //Interruption du timer 32 bits sur 2-3
-
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
-    LED_ORANGE_1 = !LED_ORANGE_1;
-#if(0)
-    static uint8_t cs_count = 0;
-    
-    switch(cs_count){
-        case 0 : 
-            PWMSetSpeed(10, MOTEUR_DROIT);
-            PWMSetSpeed(-10, MOTEUR_GAUCHE);
-            cs_count += 1;
-        break;
-        
-        case 1 : 
-            PWMSetSpeed(15, MOTEUR_DROIT);
-            PWMSetSpeed(-15, MOTEUR_GAUCHE);
-            cs_count += 1;
-        break;
-        
-        case 2 : 
-            PWMSetSpeed(20, MOTEUR_DROIT);
-            PWMSetSpeed(-20, MOTEUR_GAUCHE);
-            cs_count += 1;
-        break;
-        
-        case 3 : 
-            PWMSetSpeed(25, MOTEUR_DROIT);
-            PWMSetSpeed(-25, MOTEUR_GAUCHE);
-            cs_count += 1;
-        break;
-        
-        case 4 : 
-            PWMSetSpeed(0, MOTEUR_DROIT);
-            PWMSetSpeed(0, MOTEUR_GAUCHE);
-            cs_count += 1;
-        break;
-        
-        case 5 :
-            PWMSetSpeed(-10, MOTEUR_DROIT);
-            PWMSetSpeed(10, MOTEUR_GAUCHE);
-            cs_count += 1;
-        break;
-        case 6 :
-            PWMSetSpeed(-15, MOTEUR_DROIT);
-            PWMSetSpeed(15, MOTEUR_GAUCHE);
-            cs_count += 1;
-        break;
-        case 7 :
-            PWMSetSpeed(-20, MOTEUR_DROIT);
-            PWMSetSpeed(20, MOTEUR_GAUCHE);
-            cs_count += 1;
-        break;
-        case 8 :
-            PWMSetSpeed(-25, MOTEUR_DROIT);
-            PWMSetSpeed(25, MOTEUR_GAUCHE);
-            cs_count += 1;
-        break;
-        case 9 :
-            PWMSetSpeed(0, MOTEUR_DROIT);
-            PWMSetSpeed(0, MOTEUR_GAUCHE);
-            cs_count = 0;
-        break;
-        
+    LED_ORANGE_2 = !LED_ORANGE_2;
+}
+
+void InitTimer4(void){
+    T4CONbits.TON=0;
+    T4CONbits.TCS = 0;
+    SetFreqTimer4(1000);
+    IFS1bits.T4IF = 0; // Clear Timer Interrupt Flag
+    IEC1bits.T4IE = 1; // Enable Timer interrupt
+    T4CONbits.TON = 1;
+}
+unsigned long timestamp = 0;
+void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void){
+    IFS1bits.T4IF = 0;
+    timestamp += 1;
+    OperatingSystemLoop();
+}
+
+
+void SetFreqTimer4(float freq){
+   T4CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
+    if(FCY /freq > 65535){
+        T4CONbits.TCKPS = 0b01; //01 = 1:8 prescaler value
+        if(FCY /freq / 8 > 65535){
+            T4CONbits.TCKPS = 0b10; //10 = 1:64 prescaler value
+            if(FCY /freq / 64 > 65535){
+                T4CONbits.TCKPS = 0b11; //11 = 1:256 prescaler value
+                PR4 = (int)(FCY / freq / 256);
+            }
+            else
+                PR4 = (int)(FCY / freq / 64);
+        }
+        else
+            PR4 = (int)(FCY / freq / 8);
     }
-    
-#endif
+    else
+        PR4 = (int)(FCY / freq);
+}
+
+void SetFreqTimer1(float freq){
+    T1CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
+    if(FCY /freq > 65535){
+        T1CONbits.TCKPS = 0b01; //01 = 1:8 prescaler value
+        if(FCY /freq / 8 > 65535){
+            T1CONbits.TCKPS = 0b10; //10 = 1:64 prescaler value
+            if(FCY /freq / 64 > 65535){
+                T1CONbits.TCKPS = 0b11; //11 = 1:256 prescaler value
+                PR1 = (int)(FCY / freq / 256);
+            }
+            else
+                PR1 = (int)(FCY / freq / 64);
+        }
+        else
+            PR1 = (int)(FCY / freq / 8);
+    }
+    else
+        PR1 = (int)(FCY / freq);
 }

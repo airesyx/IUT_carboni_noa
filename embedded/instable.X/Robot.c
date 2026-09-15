@@ -4,7 +4,7 @@
 
 volatile ROBOT_STATE_BITS robotState;
 
-float acceleration = 5;
+float acceleration = 30;
 double talon = 50;
 void PWMUpdateSpeed(){
     if(robotState.vitesseGaucheCommandeCourante < robotState.vitesseGaucheConsigne){
@@ -41,10 +41,10 @@ void PWMUpdateSpeed(){
 }
 
 void PWMSetSpeedConsigne(float vitesseEnPourcents, char moteur){
-    if(moteur == 'R'){
-        robotState.vitesseDroiteConsigne = vitesseEnPourcents;
+    if(moteur == MOTEUR_DROIT){
+        robotState.vitesseDroiteConsigne = -vitesseEnPourcents;
     }
-    else if (moteur == 'L'){
+    else if (moteur == MOTEUR_GAUCHE){
         robotState.vitesseGaucheConsigne = vitesseEnPourcents;
     }
 }
