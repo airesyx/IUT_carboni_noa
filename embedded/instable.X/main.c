@@ -5,6 +5,7 @@
 #include "IO.h"
 #include "timer.h"
 #include "PWM.h"
+#include "Robot.h"
 #include "Toolbox.h"
 
 int main (void){
@@ -32,6 +33,8 @@ LED_ORANGE_2 = 0;
 LED_ROUGE_2 = 0;
 LED_VERTE_2 = 0;
 
+//PWMSetSpeedConsigne(15, 'R');
+//PWMSetSpeedConsigne(-15, 'L');
 // Boucle Principale
     while(1)
     {

@@ -24,6 +24,7 @@ void InitPWM(void) {
     PTCONbits.PTEN = 1;
 }
 
+/*
 double talon = 50;
 void PWMSetSpeed(float vitesseEnPourcents, uint8_t selMotor){
     
@@ -48,3 +49,4 @@ void PWMSetSpeed(float vitesseEnPourcents, uint8_t selMotor){
         }
     }
 }
+*/

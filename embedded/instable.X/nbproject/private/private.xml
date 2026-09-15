@@ -5,12 +5,14 @@
         <group>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/PWM.c</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/ChipConfig.c</file>
+            <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/Toolbox.c</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/main.c</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/Robot.c</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/IO.c</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/timer.c</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/PWM.h</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/IO.h</file>
+            <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/Robot.h</file>
         </group>
     </open-files>
 </project-private>

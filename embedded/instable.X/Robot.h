@@ -7,5 +7,12 @@ typedef struct robotStateBITS {
     float vitesseDroiteConsigne;
     float vitesseDroiteCommandeCourante;
 } ROBOT_STATE_BITS;
+
 extern volatile ROBOT_STATE_BITS robotState;
+
+#define PWMPER 24.0
+
+void PWMUpdateSpeed();
+void PWMSetSpeedConsigne(float vitesseEnPourcents, char moteur);
+
 #endif /* ROBOT_H */
