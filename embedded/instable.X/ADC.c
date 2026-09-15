@@ -41,11 +41,9 @@ AD1CON4bits.ADDMAEN = 0; // DMA is not used
 //Configuration des ports
 /************************************************************/
 //ADC éutiliss : 8(B8)-9(B9)-10(B10)
-ANSELBbits.ANSB0 = 1;
 ANSELBbits.ANSB8 = 1;
 ANSELBbits.ANSB9 = 1;
 ANSELBbits.ANSB10 = 1;
-AD1CSSLbits.CSS0=1; 
 AD1CSSLbits.CSS8=1; // Enable AN8 for scan
 AD1CSSLbits.CSS9=1; // Enable AN9 for scan
 AD1CSSLbits.CSS10=1; // Enable AN10 for scan
@@ -60,10 +58,9 @@ AD1CON1bits.ADON = 1; // Turn on the A/D converter
 void __attribute__((interrupt, no_auto_psv)) _AD1Interrupt(void)
 {
 IFS0bits.AD1IF = 0;
-ADCResult[0] = ADC1BUF1;// Read the AN-scan input 1 conversion result
-ADCResult[1] = ADC1BUF2;// Read the AN3 conversion result
-ADCResult[2] = ADC1BUF3;// Read the AN5 conversion result
-ADCResult[3] = ADC1BUF0;// Read the AN5 conversion result
+ADCResult[0] = ADC1BUF0;// Read the AN-scan input 1 conversion result
+ADCResult[1] = ADC1BUF1;// Read the AN3 conversion result
+ADCResult[2] = ADC1BUF2;// Read the AN5 conversion result
 ADCConversionFinishedFlag = 1;
 }
 void ADC1StartConversionSequence()

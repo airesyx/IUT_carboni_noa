@@ -7,10 +7,13 @@
 #include "PWM.h"
 #include "Robot.h"
 #include "Toolbox.h"
+#include "ADC.h"
 
 int main (void){
 //Initialisation oscillateur
 InitOscillator();
+//Configuration des input et output (IO)
+InitIO();
 
 //Initialisation des timers
 InitTimer1();
@@ -19,8 +22,9 @@ InitTimer23();
 //Initialisation PWM
 InitPWM();
 
-//Configuration des input et output (IO)
-InitIO();
+//Initialisation ADC1
+InitADC1();
+
 LED_BLANCHE_1 = 0;
 LED_BLEUE_1 = 0;
 LED_ORANGE_1 = 0;
@@ -38,6 +42,5 @@ LED_VERTE_2 = 0;
 // Boucle Principale
     while(1)
     {
-        
     } // fin main
 }
