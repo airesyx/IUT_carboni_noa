@@ -44,7 +44,7 @@ void InitTimer23(void) {
 //Interruption du timer 32 bits sur 2-3
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
-    LED_ORANGE_2 = !LED_ORANGE_2;
+    //LED_VERTE_2 = !LED_VERTE_2;
 }
 
 void InitTimer4(void){

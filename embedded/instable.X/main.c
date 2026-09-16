@@ -40,7 +40,6 @@ LED_ORANGE_2 = 0;
 LED_ROUGE_2 = 0;
 LED_VERTE_2 = 0;
 
-
 // Boucle Principale
     while(1)
     {
@@ -57,18 +56,14 @@ LED_VERTE_2 = 0;
             robotState.distanceTelemetreDroit = 34 / volts - 5;
             volts = ((float) result [4])* 3.3 / 4096;
             robotState.distanceTelemetreEDroit = 34 / volts - 5;
-            
-            LED_BLANCHE_1 = robotState.distanceTelemetreEGauche < 30;
-            LED_BLEUE_1 = robotState.distanceTelemetreGauche < 30;
-            LED_ORANGE_1 = robotState.distanceTelemetreCentre < 20;
-            LED_ROUGE_1 = robotState.distanceTelemetreDroit < 30;
-            LED_VERTE_1 = robotState.distanceTelemetreEDroit < 30;
         }
     } // fin main
 }
 
 unsigned char stateRobot;
 void OperatingSystemLoop(void){
+    SetNextRobotStateInAutomaticMode();
+    /*
     switch (stateRobot){
         case STATE_ATTENTE:
             timestamp = 0;
@@ -79,7 +74,7 @@ void OperatingSystemLoop(void){
         
         case STATE_ATTENTE_EN_COURS:
             if (timestamp > 1000)
-            stateRobot = STATE_AVANCE;
+                stateRobot = STATE_AVANCE;
         break;
         
         case STATE_AVANCE:
@@ -136,20 +131,59 @@ void OperatingSystemLoop(void){
             stateRobot = STATE_ATTENTE;
         break;
     }
+     */
 }
+
+volatile OBSTACLE obstacle;
 
 unsigned char nextStateRobot=0;
 void SetNextRobotStateInAutomaticMode(void){
-    unsigned char positionObstacle = PAS_D_OBSTACLE;
-    //Determination de la position des obstacles en fonction des telemetres
-    if (robotState.distanceTelemetreDroit < 30 && robotState.distanceTelemetreCentre > 20 && robotState.distanceTelemetreGauche > 30) //Obstacle a droite
-        positionObstacle = OBSTACLE_A_DROITE;
-    else if(robotState.distanceTelemetreDroit > 30 && robotState.distanceTelemetreCentre > 20 && robotState.distanceTelemetreGauche < 30) //Obstacle a gauche
-        positionObstacle = OBSTACLE_A_GAUCHE;
-    else if(robotState.distanceTelemetreCentre < 20) //Obstacle en face
-        positionObstacle = OBSTACLE_EN_FACE;
-    else if(robotState.distanceTelemetreDroit > 30 && robotState.distanceTelemetreCentre > 20 && robotState.distanceTelemetreGauche > 30) //pas d obstacle
-        positionObstacle = PAS_D_OBSTACLE;
+    
+    obstacle.front = 0;
+    obstacle.left = 0;
+    obstacle.right = 0;
+    obstacle.eleft = 0;
+    obstacle.eright = 0;
+    
+    obstacle.front += robotState.distanceTelemetreCentre < 60;
+    obstacle.left += robotState.distanceTelemetreGauche < 20;
+    obstacle.right += robotState.distanceTelemetreDroit < 20;
+    obstacle.eleft += robotState.distanceTelemetreEGauche < 20;
+    obstacle.eright += robotState.distanceTelemetreEDroit< 20;
+    
+    obstacle.front += robotState.distanceTelemetreCentre < 50;
+    obstacle.left += robotState.distanceTelemetreGauche < 20;
+    obstacle.right += robotState.distanceTelemetreDroit < 20;
+    obstacle.eleft += robotState.distanceTelemetreEGauche < 20;
+    obstacle.eright += robotState.distanceTelemetreEDroit< 20;
+    
+    obstacle.front += robotState.distanceTelemetreCentre < 40;
+    obstacle.left += robotState.distanceTelemetreGauche < 30;
+    obstacle.right += robotState.distanceTelemetreDroit < 30;
+    obstacle.eleft += robotState.distanceTelemetreEGauche < 30;
+    obstacle.eright += robotState.distanceTelemetreEDroit< 30;
+    
+    obstacle.front += robotState.distanceTelemetreCentre < 30;
+    obstacle.left += robotState.distanceTelemetreGauche < 20;
+    obstacle.right += robotState.distanceTelemetreDroit < 20;
+    obstacle.eleft += robotState.distanceTelemetreEGauche < 20;
+    obstacle.eright += robotState.distanceTelemetreEDroit< 20;
+    
+    obstacle.front += robotState.distanceTelemetreCentre < 20;
+
+    LED_BLANCHE_1 = obstacle.eleft >= 1;
+    LED_BLEUE_1 = obstacle.left >= 1;
+    LED_ORANGE_1 = obstacle.front >= 1;
+    LED_ROUGE_1 = obstacle.right >= 1;
+    LED_VERTE_1 = obstacle.eright >= 1;
+    
+    LED_VERTE_2 = obstacle.front >= 1;
+    LED_ROUGE_2 = obstacle.front >= 2;
+    LED_ORANGE_2 = obstacle.front >= 3;
+    LED_BLEUE_2 = obstacle.front >= 4;
+    LED_BLANCHE_2 = obstacle.front >= 5;
+    
+    /*
     //Determination de l etat a venir du robot
     if (positionObstacle == PAS_D_OBSTACLE)
         nextStateRobot = STATE_AVANCE;
@@ -157,9 +191,9 @@ void SetNextRobotStateInAutomaticMode(void){
         nextStateRobot = STATE_TOURNE_GAUCHE;
     else if (positionObstacle == OBSTACLE_A_GAUCHE)
         nextStateRobot = STATE_TOURNE_DROITE;
-    else if (positionObstacle == OBSTACLE_EN_FACE)
+    else if (positionObstacle == OBSTACLE_EN_FACE)*
         nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
-        
+        */
 
     //Si l on n est pas dans la transition de l etape en cours
     if (nextStateRobot != stateRobot - 1)

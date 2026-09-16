@@ -24,7 +24,14 @@
 #define OBSTACLE_A_DROITE 2
 #define OBSTACLE_EN_FACE 3
 
-
+typedef struct Obstacle {
+    uint8_t front;
+    uint8_t eright;
+    uint8_t eleft;
+    uint8_t right;
+    uint8_t left;
+    
+} OBSTACLE;
 void OperatingSystemLoop(void);
 void SetNextRobotStateInAutomaticMode(void);
 
