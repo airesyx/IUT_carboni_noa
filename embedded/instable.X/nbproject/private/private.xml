@@ -13,7 +13,9 @@
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/IO.h</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/Robot.h</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/ADC.h</file>
+            <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/Toolbox.h</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/PWM.c</file>
+            <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/Toolbox.c</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/main.c</file>
             <file>file:/C:/Github/IUT_carboni_noa/embedded/instable.X/timer.h</file>
         </group>

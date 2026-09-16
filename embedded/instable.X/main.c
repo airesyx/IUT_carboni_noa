@@ -151,14 +151,15 @@ void SetNextRobotStateInAutomaticMode(void){
             lastMinVectorX = 0;
             stateRobot = STATE_ESQUIVE;
         }
-    }else {
-        if (iterationCount < MAX_ESQUIVE_ITERATION){
+    }
+    else if(stateRobot == STATE_ESQUIVE_EN_COURS){
+        if(iterationCount < MAX_ESQUIVE_ITERATION){
             if( -vectorX <= ESQUIVE_TH_L){
                 stateRobot = STATE_AVANCE;
             }
             iterationCount += 1;
         }
-        else if (iterationCount >= MAX_ESQUIVE_ITERATION){
+        else if(iterationCount >= MAX_ESQUIVE_ITERATION){
             if(minVectorX > vectorX){
                 minVectorX = vectorX;
                 iterationCount = MAX_ESQUIVE_ITERATION;
@@ -172,6 +173,9 @@ void SetNextRobotStateInAutomaticMode(void){
                 stateRobot = STATE_FIND_POTENTIAL_EXIT;
             }
         }
+    }
+    else if(stateRobot == STATE_FIND_POTENTIAL_EXIT_EN_COURS){
+        
     }
     
     if(stateRobot == STATE_ESQUIVE || stateRobot == STATE_ESQUIVE_EN_COURS){
