@@ -7,16 +7,16 @@
 #define MAX_DIST 50
 #define MIN_DIST 10
 
-#define K_REPULSE 5
+#define K_REPULSE 350
 #define K_CORRECTION 5
 
 #define BASE_SPEED_PERCENT 25
-#define ESQUIVE_SPEED_PERCENT 10
+#define ESQUIVE_SPEED_PERCENT 15
 
+#define ESQUIVE_TH_H 5 //Engage Esquive 
+#define ESQUIVE_TH_L 4 //Disengage Esquive
 #define MAX_ESQUIVE_ITERATION 5000// 1kHz -> 1000/s
 #define MAX_ESQUIVE_CHECK_ITERATION MAX_ESQUIVE_ITERATION*2
-#define ESQUIVE_TH_H 10 //Engage Esquive 
-#define ESQUIVE_TH_L 10 //Disengage Esquive
 
 #define STATE_ATTENTE 0
 #define STATE_ATTENTE_EN_COURS 1

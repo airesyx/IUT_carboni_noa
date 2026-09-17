@@ -65,6 +65,8 @@ float leftMotorSpeed = 0.0;
 float rightMotorSpeed = 0.0;
 void OperatingSystemLoop(void){
     switch (stateRobot){
+        
+        
         case STATE_ATTENTE:
             timestamp = 0;
             PWMSetSpeedConsigne(0, MOTEUR_DROIT);
@@ -88,8 +90,8 @@ void OperatingSystemLoop(void){
         break;
         
         case STATE_AVANCE_TOURNE:
-            PWMSetSpeedConsigne(25, MOTEUR_DROIT);
-            PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
+            PWMSetSpeedConsigne(rightMotorSpeed, MOTEUR_DROIT);
+            PWMSetSpeedConsigne(leftMotorSpeed, MOTEUR_GAUCHE);
             stateRobot = STATE_AVANCE_TOURNE_EN_COURS;
         break;
         
@@ -120,12 +122,13 @@ void OperatingSystemLoop(void){
         default :
             stateRobot = STATE_ATTENTE;
         break;
+        
     }
 }
 
 volatile OBSTACLE obstacle;
-const float SENSOR_COS[SENSOR_NB] = {0.0, 0.0, 0.0, 0.0, 0.0};//EGauche, Gauche, Centre, Droit, EDroit
-const float SENSOR_SIN[SENSOR_NB] = {0.0, 0.0, 0.0, 0.0, 0.0};//EGauche, Gauche, Centre, Droit, EDroit
+const float SENSOR_COS[SENSOR_NB] = {0.642787609, 0.906307787, 1.0, 0.906307787, 0.642787609};//EGauche, Gauche, Centre, Droit, EDroit
+const float SENSOR_SIN[SENSOR_NB] = {0.766044443, 0.422618261, 1.0, -0.422618261, -0.766044443};//EGauche, Gauche, Centre, Droit, EDroit
 unsigned char nextStateRobot = 0;
 void SetNextRobotStateInAutomaticMode(void){
     float dist[SENSOR_NB] = {
@@ -137,11 +140,13 @@ void SetNextRobotStateInAutomaticMode(void){
     };
     float vectorX = 0.0;
     float vectorY = 0.0;
-    for(uint8_t i; i < SENSOR_NB; i++){
+    for(uint8_t i = 0; i < SENSOR_NB; i++){
         float pow = repulsePow(dist[i]);
         vectorX -= SENSOR_COS[i] * pow;
         vectorY -= SENSOR_SIN[i] * pow;
     }
+    float correction = LimitToInterval(vectorY * K_CORRECTION, -BASE_SPEED_PERCENT, BASE_SPEED_PERCENT);
+    //Control
     static unsigned int iterationCount = 0;
     static float minVectorX = 0.0;
     static float lastMinVectorX = 0.0;
@@ -151,14 +156,20 @@ void SetNextRobotStateInAutomaticMode(void){
             lastMinVectorX = 0;
             stateRobot = STATE_ESQUIVE;
         }
+        else if (vectorY > 0 || vectorY < 0){//Steer Left
+            stateRobot = STATE_AVANCE_TOURNE;
+        }
+        else {
+            stateRobot = STATE_AVANCE;
+        }
     }
     else if(stateRobot == STATE_ESQUIVE_EN_COURS){
-        if(iterationCount < MAX_ESQUIVE_ITERATION){
+        //if(iterationCount < MAX_ESQUIVE_ITERATION){
             if( -vectorX <= ESQUIVE_TH_L){
                 stateRobot = STATE_AVANCE;
             }
             iterationCount += 1;
-        }
+        /*}
         else if(iterationCount >= MAX_ESQUIVE_ITERATION){
             if(minVectorX > vectorX){
                 minVectorX = vectorX;
@@ -172,10 +183,7 @@ void SetNextRobotStateInAutomaticMode(void){
             if(iterationCount >= MAX_ESQUIVE_CHECK_ITERATION){
                 stateRobot = STATE_FIND_POTENTIAL_EXIT;
             }
-        }
-    }
-    else if(stateRobot == STATE_FIND_POTENTIAL_EXIT_EN_COURS){
-        
+        }*/
     }
     
     if(stateRobot == STATE_ESQUIVE || stateRobot == STATE_ESQUIVE_EN_COURS){
@@ -187,24 +195,21 @@ void SetNextRobotStateInAutomaticMode(void){
             leftMotorSpeed = ESQUIVE_SPEED_PERCENT;
             rightMotorSpeed = -ESQUIVE_SPEED_PERCENT;
         }
-    }
-    else{
         
     }
-    
-    
-    if(vectorY > 0 || vectorY < 0){//Steer Left
-        stateRobot = STATE_AVANCE_TOURNE;
-    }
-    else {
-        stateRobot = STATE_AVANCE;
+    else if(stateRobot == STATE_AVANCE_TOURNE || stateRobot == STATE_AVANCE_TOURNE_EN_COURS){
+        leftMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT + correction, 0, BASE_SPEED_PERCENT);
+        rightMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT - correction, 0, BASE_SPEED_PERCENT);
     }
     
-    //Si l on n est pas dans la transition de l etape en cours
-    if (nextStateRobot != stateRobot - 1){
-        stateRobot = nextStateRobot;  
-    }
     
+    
+    obstacle.front = 0;
+    obstacle.front += robotState.distanceTelemetreCentre <=60;
+    obstacle.front += robotState.distanceTelemetreCentre <=50;
+    obstacle.front += robotState.distanceTelemetreCentre <=40;
+    obstacle.front += robotState.distanceTelemetreCentre <=30;
+    obstacle.front += robotState.distanceTelemetreCentre <=20;
     LED_BLANCHE_1 = obstacle.eleft >= 1;
     LED_BLEUE_1 = obstacle.left >= 1;
     LED_ORANGE_1 = obstacle.front >= 1;

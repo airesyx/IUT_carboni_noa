@@ -42,7 +42,7 @@ void PWMUpdateSpeed(){
 
 void PWMSetSpeedConsigne(float vitesseEnPourcents, char moteur){
     if(moteur == MOTEUR_DROIT){
-        robotState.vitesseDroiteConsigne = -vitesseEnPourcents;
+        robotState.vitesseDroiteConsigne = -vitesseEnPourcents; 
     }
     else if (moteur == MOTEUR_GAUCHE){
         robotState.vitesseGaucheConsigne = vitesseEnPourcents;
