@@ -67,66 +67,65 @@ void OperatingSystemLoop(void){
     switch (stateRobot){
         
         
-        case STATE_ATTENTE:
+        case STATE_WAIT:
             timestamp = 0;
             PWMSetSpeedConsigne(0, MOTEUR_DROIT);
             PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
-            stateRobot = STATE_ATTENTE_EN_COURS;
+            stateRobot = STATE_WAIT_ONGOING;
         break;
         
-        case STATE_ATTENTE_EN_COURS:
+        case STATE_WAIT_ONGOING:
             if (timestamp > 2000)
-                stateRobot = STATE_AVANCE;
+                stateRobot = STATE_FORWARD;
         break;
         
-        case STATE_AVANCE:
+        case STATE_FORWARD:
             PWMSetSpeedConsigne(BASE_SPEED_PERCENT, MOTEUR_DROIT);
             PWMSetSpeedConsigne(BASE_SPEED_PERCENT, MOTEUR_GAUCHE);
-            stateRobot = STATE_AVANCE_EN_COURS;
+            stateRobot = STATE_FORWARD_ONGOING;
         break;
         
-        case STATE_AVANCE_EN_COURS:
+        case STATE_FORWARD_ONGOING:
             SetNextRobotStateInAutomaticMode();
         break;
         
-        case STATE_AVANCE_TOURNE:
+        case STATE_FORWARD_CONTROLED:
             PWMSetSpeedConsigne(rightMotorSpeed, MOTEUR_DROIT);
             PWMSetSpeedConsigne(leftMotorSpeed, MOTEUR_GAUCHE);
-            stateRobot = STATE_AVANCE_TOURNE_EN_COURS;
+            stateRobot = STATE_FORWARD_CONTROLED_ONGOING;
         break;
         
-        case STATE_AVANCE_TOURNE_EN_COURS:
+        case STATE_FORWARD_CONTROLED_ONGOING:
             SetNextRobotStateInAutomaticMode();
         break;
         
-        case STATE_ESQUIVE:
+        case STATE_EVADE:
             PWMSetSpeedConsigne(rightMotorSpeed, MOTEUR_DROIT);
             PWMSetSpeedConsigne(leftMotorSpeed, MOTEUR_GAUCHE);
-            stateRobot = STATE_ESQUIVE_EN_COURS;
+            stateRobot = STATE_EVADE_ONGOING;
         break;
         
-        case STATE_ESQUIVE_EN_COURS:
+        case STATE_EVADE_ONGOING:
             SetNextRobotStateInAutomaticMode();
         break;
         
-        case STATE_FIND_POTENTIAL_EXIT:
+        case STATE_FIND_EXIT:
             PWMSetSpeedConsigne(rightMotorSpeed, MOTEUR_DROIT);
             PWMSetSpeedConsigne(leftMotorSpeed, MOTEUR_GAUCHE);
-            stateRobot = STATE_FIND_POTENTIAL_EXIT_EN_COURS;
+            stateRobot = STATE_FIND_EXIT_ONGOING;
         break;
         
-        case STATE_FIND_POTENTIAL_EXIT_EN_COURS:
+        case STATE_FIND_EXIT_ONGOING:
             SetNextRobotStateInAutomaticMode();
         break;
         
         default :
-            stateRobot = STATE_ATTENTE;
+            stateRobot = STATE_WAIT;
         break;
         
     }
 }
 
-volatile OBSTACLE obstacle;
 const float SENSOR_COS[SENSOR_NB] = {0.642787609, 0.906307787, 1.0, 0.906307787, 0.642787609};//EGauche, Gauche, Centre, Droit, EDroit
 const float SENSOR_SIN[SENSOR_NB] = {0.766044443, 0.422618261, 1.0, -0.422618261, -0.766044443};//EGauche, Gauche, Centre, Droit, EDroit
 unsigned char nextStateRobot = 0;
@@ -150,77 +149,78 @@ void SetNextRobotStateInAutomaticMode(void){
     static unsigned int iterationCount = 0;
     static float minVectorX = 0.0;
     static float lastMinVectorX = 0.0;
-    if(stateRobot != STATE_ESQUIVE_EN_COURS){
+    if(stateRobot != STATE_EVADE_ONGOING){
         if( -vectorX >= ESQUIVE_TH_H){
             iterationCount = 0;
             lastMinVectorX = 0;
-            stateRobot = STATE_ESQUIVE;
+            stateRobot = STATE_EVADE;
         }
         else if (vectorY > 0 || vectorY < 0){//Steer Left
-            stateRobot = STATE_AVANCE_TOURNE;
+            stateRobot = STATE_FORWARD_CONTROLED;
         }
         else {
-            stateRobot = STATE_AVANCE;
+            stateRobot = STATE_FORWARD;
         }
     }
-    else if(stateRobot == STATE_ESQUIVE_EN_COURS){
-        //if(iterationCount < MAX_ESQUIVE_ITERATION){
+    else if(stateRobot == STATE_EVADE_ONGOING){
+        if(iterationCount < MAX_EVADE_ITERATION){
             if( -vectorX <= ESQUIVE_TH_L){
-                stateRobot = STATE_AVANCE;
+                stateRobot = STATE_FORWARD;
             }
-            iterationCount += 1;
-        /*}
-        else if(iterationCount >= MAX_ESQUIVE_ITERATION){
             if(minVectorX > vectorX){
                 minVectorX = vectorX;
-                iterationCount = MAX_ESQUIVE_ITERATION;
             }
-            if(lastMinVectorX == minVectorX){
+            iterationCount += 1;
+        }
+        else if(iterationCount >= MAX_EVADE_ITERATION){
+            if(minVectorX > vectorX){
+                minVectorX = vectorX;
+                iterationCount = MAX_EVADE_ITERATION;
+            }
+            if( Abs(lastMinVectorX - minVectorX ) < EXIT_DELTA){
                 iterationCount += 1;
             }
             lastMinVectorX = minVectorX;
         
-            if(iterationCount >= MAX_ESQUIVE_CHECK_ITERATION){
-                stateRobot = STATE_FIND_POTENTIAL_EXIT;
+            if(iterationCount >= MAX_EVADE_DIST_CHECK_ITERATION){
+                iterationCount = 0;
+                leftMotorSpeed = leftMotorSpeed > 0 ? -EXIT_SPEED_PERCENT : EXIT_SPEED_PERCENT;
+                rightMotorSpeed = -leftMotorSpeed;
+                stateRobot = STATE_FIND_EXIT;
             }
-        }*/
+        }
+    }
+    else if (stateRobot == STATE_FIND_EXIT_ONGOING){
+        if( (lastMinVectorX - vectorY) < EXIT_DELTA){
+            stateRobot = STATE_TRY_EXIT;
+        }
+        iterationCount += 1;
     }
     
-    if(stateRobot == STATE_ESQUIVE || stateRobot == STATE_ESQUIVE_EN_COURS){
-        if(vectorY > 0){
-            leftMotorSpeed = -ESQUIVE_SPEED_PERCENT;
-            rightMotorSpeed = ESQUIVE_SPEED_PERCENT;
-        }
-        else {
-            leftMotorSpeed = ESQUIVE_SPEED_PERCENT;
-            rightMotorSpeed = -ESQUIVE_SPEED_PERCENT;
-        }
+    if(stateRobot == STATE_EVADE || stateRobot == STATE_EVADE_ONGOING){
+        
+        leftMotorSpeed = vectorY > 0 ? -EVADE_SPEED_PERCENT : EVADE_SPEED_PERCENT;
+        rightMotorSpeed = -leftMotorSpeed;
         
     }
-    else if(stateRobot == STATE_AVANCE_TOURNE || stateRobot == STATE_AVANCE_TOURNE_EN_COURS){
-        leftMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT + correction, 0, BASE_SPEED_PERCENT);
-        rightMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT - correction, 0, BASE_SPEED_PERCENT);
+    else if(stateRobot == STATE_FORWARD_CONTROLED || stateRobot == STATE_FORWARD_CONTROLED_ONGOING){
+        leftMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT - correction, 0, BASE_SPEED_PERCENT);
+        rightMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT + correction, 0, BASE_SPEED_PERCENT);
     }
     
     
     
-    obstacle.front = 0;
-    obstacle.front += robotState.distanceTelemetreCentre <=60;
-    obstacle.front += robotState.distanceTelemetreCentre <=50;
-    obstacle.front += robotState.distanceTelemetreCentre <=40;
-    obstacle.front += robotState.distanceTelemetreCentre <=30;
-    obstacle.front += robotState.distanceTelemetreCentre <=20;
-    LED_BLANCHE_1 = obstacle.eleft >= 1;
-    LED_BLEUE_1 = obstacle.left >= 1;
-    LED_ORANGE_1 = obstacle.front >= 1;
-    LED_ROUGE_1 = obstacle.right >= 1;
-    LED_VERTE_1 = obstacle.eright >= 1;
+    LED_BLANCHE_1 = robotState.distanceTelemetreEGauche <=30;
+    LED_BLEUE_1 = robotState.distanceTelemetreGauche <=30;
+    LED_ORANGE_1 = robotState.distanceTelemetreCentre <=30;
+    LED_ROUGE_1 = robotState.distanceTelemetreDroit <=30;
+    LED_VERTE_1 = robotState.distanceTelemetreEDroit <=30;
     
-    LED_VERTE_2 = obstacle.front >= 1;
-    LED_ROUGE_2 = obstacle.front >= 2;
-    LED_ORANGE_2 = obstacle.front >= 3;
-    LED_BLEUE_2 = obstacle.front >= 4;
-    LED_BLANCHE_2 = obstacle.front >= 5;
+    LED_VERTE_2 = robotState.distanceTelemetreCentre <=60;
+    LED_ROUGE_2 = robotState.distanceTelemetreCentre <=50;
+    LED_ORANGE_2 = robotState.distanceTelemetreCentre <=40;
+    LED_BLEUE_2 = robotState.distanceTelemetreCentre <=30;
+    LED_BLANCHE_2 = robotState.distanceTelemetreCentre <=20;
 }
 
 float repulsePow(float dist){

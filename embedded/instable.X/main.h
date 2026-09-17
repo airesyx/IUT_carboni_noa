@@ -7,38 +7,34 @@
 #define MAX_DIST 50
 #define MIN_DIST 10
 
-#define K_REPULSE 350
-#define K_CORRECTION 5
+#define K_REPULSE 370
+#define K_CORRECTION 10
+#define EXIT_DELTA 10
 
 #define BASE_SPEED_PERCENT 25
-#define ESQUIVE_SPEED_PERCENT 15
+#define EVADE_SPEED_PERCENT 10
+#define EXIT_SPEED_PERCENT 10
 
 #define ESQUIVE_TH_H 5 //Engage Esquive 
 #define ESQUIVE_TH_L 4 //Disengage Esquive
-#define MAX_ESQUIVE_ITERATION 5000// 1kHz -> 1000/s
-#define MAX_ESQUIVE_CHECK_ITERATION MAX_ESQUIVE_ITERATION*2
+#define MAX_EVADE_ITERATION 3000 //Nb of iteration before ineterpretting as stuck (1kHz)
+#define MAX_EVADE_DIST_CHECK_ITERATION MAX_EVADE_ITERATION + 500 //Nb of iteration before engaging exit finding
 
-#define STATE_ATTENTE 0
-#define STATE_ATTENTE_EN_COURS 1
-#define STATE_AVANCE 2
-#define STATE_AVANCE_EN_COURS 3
-#define STATE_AVANCE_TOURNE 4
-#define STATE_AVANCE_TOURNE_EN_COURS 5
-#define STATE_ESQUIVE 6
-#define STATE_ESQUIVE_EN_COURS 7
-#define STATE_ARRET 8
-#define STATE_ARRET_EN_COURS 9
-#define STATE_FIND_POTENTIAL_EXIT 10
-#define STATE_FIND_POTENTIAL_EXIT_EN_COURS 11
+#define STATE_WAIT 0
+#define STATE_WAIT_ONGOING 1
+#define STATE_FORWARD 2
+#define STATE_FORWARD_ONGOING 3
+#define STATE_FORWARD_CONTROLED 4
+#define STATE_FORWARD_CONTROLED_ONGOING 5
+#define STATE_EVADE 6
+#define STATE_EVADE_ONGOING 7
+#define STATE_STOP 8
+#define STATE_STOP_ONGOING 9
+#define STATE_FIND_EXIT 10
+#define STATE_FIND_EXIT_ONGOING 11
+#define STATE_TRY_EXIT 10
+#define STATE_TRY_EXIT_ONGOING 11
 
-typedef struct Obstacle {
-    uint8_t front;
-    uint8_t eright;
-    uint8_t eleft;
-    uint8_t right;
-    uint8_t left;
-    
-} OBSTACLE;
 void OperatingSystemLoop(void);
 void SetNextRobotStateInAutomaticMode(void);
 float repulsePow(float dist);
