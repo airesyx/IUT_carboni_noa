@@ -190,7 +190,7 @@ void SetNextRobotStateInAutomaticMode(void){
             }
         }
     }
-    else if (stateRobot == STATE_FIND_EXIT_ONGOING){
+    else if (stateRobot == STATE_FIND_EXIT_ONGOING){ //Needs Work (After finding potential exit try going forward, if vectorX rising : stop until vectorX goes down or try again after x amount of time)
         if( (lastMinVectorX - vectorY) < EXIT_DELTA){
             stateRobot = STATE_TRY_EXIT;
         }
