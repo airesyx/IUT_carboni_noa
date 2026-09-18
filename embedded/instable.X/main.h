@@ -7,17 +7,17 @@
 #define MAX_DIST 50
 #define MIN_DIST 10
 
-#define K_REPULSE 400
-#define K_CORRECTION 20
+#define K_REPULSE 1000
+#define K_CORRECTION 10
 #define EXIT_DELTA 10
 
 #define BASE_SPEED_PERCENT 25
 #define EVADE_SPEED_PERCENT 10
 #define EXIT_SPEED_PERCENT 10
 
-#define ESQUIVE_TH_H 5 //Engage Esquive 
-#define ESQUIVE_TH_L 4 //Disengage Esquive
-#define MAX_EVADE_ITERATION 3000 //Nb of iteration before ineterpretting as stuck (1kHz)
+#define ESQUIVE_TH_H 8.7 //Engage Esquive 
+#define ESQUIVE_TH_L 4.8 //Disengage Esquive
+#define MAX_EVADE_ITERATION 4000 //Nb of iteration before ineterpretting as stuck (1kHz)
 #define MAX_EVADE_DIST_CHECK_ITERATION MAX_EVADE_ITERATION + 500 //Nb of iteration before engaging exit finding
 
 #define STATE_WAIT 0
