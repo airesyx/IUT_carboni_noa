@@ -7,8 +7,8 @@
 #define MAX_DIST 50
 #define MIN_DIST 10
 
-#define K_REPULSE 370
-#define K_CORRECTION 10
+#define K_REPULSE 400
+#define K_CORRECTION 20
 #define EXIT_DELTA 10
 
 #define BASE_SPEED_PERCENT 25

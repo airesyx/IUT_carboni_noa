@@ -5,12 +5,12 @@ Tool Name:
 
 Command:
   -p33EP512MU814 \
-  --mdfp=C:/soft/MPLAB x IDE/packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.7.401/xc16 \
+  --mdfp=C:/Users/E306_PC1/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.7.401/xc16 \
   -o \
   dist/default/production/instable.X.production.elf \
   -Lc:/program files/microchip/xc16/v2.10/bin/bin/.. \
-  -LC:/soft/MPLAB x IDE/packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.7.401/xc16/bin/../support/PIC24E/gld \
-  -LC:/soft/MPLAB x IDE/packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.7.401/xc16/bin/../support/dsPIC33E/gld \
+  -LC:/Users/E306_PC1/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.7.401/xc16/bin/../support/PIC24E/gld \
+  -LC:/Users/E306_PC1/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.7.401/xc16/bin/../support/dsPIC33E/gld \
   -Lc:/program files/microchip/xc16/v2.10/bin/bin/../../lib \
   -Lc:/program files/microchip/xc16/v2.10/bin/bin/../../support/PIC24E/gld \
   -Lc:/program files/microchip/xc16/v2.10/bin/bin/../../support/PIC24F/gld \
@@ -476,7 +476,7 @@ usercode
 
 __FGS             0xf80004          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf80004          0x2 /CW/_FGSð„V
+ __FGS.sec        0xf80004          0x2 /CW/_FGS€A`
                   0xf80004                  __FGS.sec
 
 __FOSCSEL
@@ -564,36 +564,36 @@ __FUID0
  .debug_abbrev    0x000872         0x14 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(fpack.EP_o)
  .debug_abbrev    0x000886         0x14 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(funpack2.EP_o)
 
-.debug_line       0x000000       0x1208
+.debug_line       0x000000       0x1224
  *(.debug_line)
- .debug_line      0x000000        0x1cf build/default/production/main.o
- .debug_line      0x0001cf        0x113 build/default/production/ChipConfig.o
- .debug_line      0x0002e2        0x115 build/default/production/IO.o
- .debug_line      0x0003f7        0x16f build/default/production/timer.o
- .debug_line      0x000566        0x12d build/default/production/Robot.o
- .debug_line      0x000693         0x54 build/default/production/Toolbox.o
- .debug_line      0x0006e7        0x105 build/default/production/PWM.o
- .debug_line      0x0007ec        0x13f build/default/production/ADC.o
- .debug_line      0x00092b         0x37 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(feqltle.EP_o)
- .debug_line      0x000962         0x35 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(fgtge.EP_o)
- .debug_line      0x000997         0x56 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(fixsfsi.EP_o)
- .debug_line      0x0009ed         0x53 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(fixunssfsi.EP_o)
- .debug_line      0x000a40         0x3b c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(floatunsisf.EP_o)
- .debug_line      0x000a7b         0x4a c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(funpack.EP_o)
- .debug_line      0x000ac5        0x136 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(addsf3x.EP_o)
- .debug_line      0x000bfb        0x124 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(divsf3x.EP_o)
- .debug_line      0x000d1f         0xcc c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsf3x.EP_o)
- .debug_line      0x000deb         0x72 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(dnrmpackfx.EP_o)
- .debug_line      0x000e5d         0x7a c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(unpackdnrmfx.EP_o)
- .debug_line      0x000ed7         0x5e c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(typefx.EP_o)
- .debug_line      0x000f35         0x51 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(propnanfx.EP_o)
- .debug_line      0x000f86         0x98 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(spackfx.EP_o)
- .debug_line      0x00101e         0x79 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(unpackfx.EP_o)
- .debug_line      0x001097         0x1a c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(errno.EP_o)
- .debug_line      0x0010b1         0x53 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(fcompare.EP_o)
- .debug_line      0x001104         0x6c c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(floatundisf.EP_o)
- .debug_line      0x001170         0x5a c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(fpack.EP_o)
- .debug_line      0x0011ca         0x3e c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(funpack2.EP_o)
+ .debug_line      0x000000        0x1d3 build/default/production/main.o
+ .debug_line      0x0001d3        0x117 build/default/production/ChipConfig.o
+ .debug_line      0x0002ea        0x119 build/default/production/IO.o
+ .debug_line      0x000403        0x173 build/default/production/timer.o
+ .debug_line      0x000576        0x131 build/default/production/Robot.o
+ .debug_line      0x0006a7         0x54 build/default/production/Toolbox.o
+ .debug_line      0x0006fb        0x109 build/default/production/PWM.o
+ .debug_line      0x000804        0x143 build/default/production/ADC.o
+ .debug_line      0x000947         0x37 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(feqltle.EP_o)
+ .debug_line      0x00097e         0x35 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(fgtge.EP_o)
+ .debug_line      0x0009b3         0x56 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(fixsfsi.EP_o)
+ .debug_line      0x000a09         0x53 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(fixunssfsi.EP_o)
+ .debug_line      0x000a5c         0x3b c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(floatunsisf.EP_o)
+ .debug_line      0x000a97         0x4a c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(funpack.EP_o)
+ .debug_line      0x000ae1        0x136 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(addsf3x.EP_o)
+ .debug_line      0x000c17        0x124 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(divsf3x.EP_o)
+ .debug_line      0x000d3b         0xcc c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(mulsf3x.EP_o)
+ .debug_line      0x000e07         0x72 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(dnrmpackfx.EP_o)
+ .debug_line      0x000e79         0x7a c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(unpackdnrmfx.EP_o)
+ .debug_line      0x000ef3         0x5e c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(typefx.EP_o)
+ .debug_line      0x000f51         0x51 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(propnanfx.EP_o)
+ .debug_line      0x000fa2         0x98 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(spackfx.EP_o)
+ .debug_line      0x00103a         0x79 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(unpackfx.EP_o)
+ .debug_line      0x0010b3         0x1a c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(errno.EP_o)
+ .debug_line      0x0010cd         0x53 c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(fcompare.EP_o)
+ .debug_line      0x001120         0x6c c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(floatundisf.EP_o)
+ .debug_line      0x00118c         0x5a c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(fpack.EP_o)
+ .debug_line      0x0011e6         0x3e c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-pic30-elf.a(funpack2.EP_o)
 
 .debug_frame      0x000000        0x460
  *(.debug_frame)
@@ -3514,7 +3514,7 @@ LOAD c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files/microchip/xc16/v2.10/bin/bin/../../lib\libc99-elf.a
 END GROUP
 OUTPUT(dist/default/production/instable.X.production.elf elf32-pic30)
-LOAD /CW/_FGSð„V
+LOAD /CW/_FGS€A`
 LOAD default_isr
 LOAD data_init
 

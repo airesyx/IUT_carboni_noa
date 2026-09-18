@@ -127,7 +127,7 @@ void OperatingSystemLoop(void){
 }
 
 const float SENSOR_COS[SENSOR_NB] = {0.642787609, 0.906307787, 1.0, 0.906307787, 0.642787609};//EGauche, Gauche, Centre, Droit, EDroit
-const float SENSOR_SIN[SENSOR_NB] = {0.766044443, 0.422618261, 1.0, -0.422618261, -0.766044443};//EGauche, Gauche, Centre, Droit, EDroit
+const float SENSOR_SIN[SENSOR_NB] = {0.766044443, 0.422618261, 0.0, -0.422618261, -0.766044443};//EGauche, Gauche, Centre, Droit, EDroit
 unsigned char nextStateRobot = 0;
 void SetNextRobotStateInAutomaticMode(void){
     float dist[SENSOR_NB] = {
