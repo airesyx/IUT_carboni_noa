@@ -47,15 +47,15 @@ LED_VERTE_2 = 0;
             ADCClearConversionFinishedFlag();
             unsigned int * result = ADCGetResult();
             float volts = ((float) result [0])* 3.3 / 4096;
-            robotState.distanceTelemetreEGauche = LimitToInterval(34 / volts - 5, 10, 50);
+            robotState.distanceTelemetreEGauche = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
             volts = ((float) result [1])* 3.3 / 4096;
-            robotState.distanceTelemetreGauche = LimitToInterval(34 / volts - 5, 10, 50);
+            robotState.distanceTelemetreGauche = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
             volts = ((float) result [2])* 3.3 / 4096;
-            robotState.distanceTelemetreCentre = LimitToInterval(34 / volts - 5, 10, 50);
+            robotState.distanceTelemetreCentre = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
             volts = ((float) result [3])* 3.3 / 4096;
-            robotState.distanceTelemetreDroit = LimitToInterval(34 / volts - 5, 10, 50);
+            robotState.distanceTelemetreDroit = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
             volts = ((float) result [4])* 3.3 / 4096;
-            robotState.distanceTelemetreEDroit = LimitToInterval(34 / volts - 5, 10, 50);
+            robotState.distanceTelemetreEDroit = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
         }
     } // fin main
 }
@@ -64,8 +64,7 @@ unsigned char stateRobot;
 float leftMotorSpeed = 0.0;
 float rightMotorSpeed = 0.0;
 void OperatingSystemLoop(void){
-    SetNextRobotStateInAutomaticMode();
-    /*
+#ifndef __STOP_MOTORS__ 
     switch (stateRobot){     
         case STATE_WAIT:
             timestamp = 0;
@@ -122,12 +121,17 @@ void OperatingSystemLoop(void){
         default :
             stateRobot = STATE_WAIT;
         break;
-    }*/
+    }
+#else
+    SetNextRobotStateInAutomaticMode();
+#endif
 }
 
-const float SENSOR_COS[SENSOR_NB] = {0.50000000000000, 0.86602540378444, 1.00000000000000, 0.86602540378444, 0.50000000000000};//EGauche, Gauche, Centre, Droit, EDroit
-const float SENSOR_SIN[SENSOR_NB] = {0.86602540378444, 0.50000000000000, 0.00000000000000, -0.50000000000000, -0.86602540378444};//EGauche, Gauche, Centre, Droit, EDroit
+const float SENSOR_Kx[SENSOR_NB] = {0.50000000000000, 0.86602540378444, 4.50000000000000, 0.86602540378444, 0.50000000000000};//EGauche, Gauche, Centre, Droit, EDroit
+const float SENSOR_Ky[SENSOR_NB] = {0.86602540378444, 0.50000000000000, 0.00000000000000, -0.50000000000000, -0.86602540378444};//EGauche, Gauche, Centre, Droit, EDroit
 unsigned char nextStateRobot = 0;
+float vectorX = 0.0;
+float vectorY = 0.0;
 void SetNextRobotStateInAutomaticMode(void){
     float dist[SENSOR_NB] = {
         robotState.distanceTelemetreEGauche, 
@@ -136,12 +140,12 @@ void SetNextRobotStateInAutomaticMode(void){
         robotState.distanceTelemetreDroit,
         robotState.distanceTelemetreEDroit,
     };
-    float vectorX = 0.0;
-    float vectorY = 0.0;
+    vectorX = 0.0;
+    vectorY = 0.0;
     for(uint8_t i = 0; i < SENSOR_NB; i++){
-        float pow = repulsePow(dist[i]);
-        vectorX -= SENSOR_COS[i] * pow;
-        vectorY -= SENSOR_SIN[i] * pow;
+        float pow = K_REPULSE / (dist[i] * dist[i]);
+        vectorX -= SENSOR_Kx[i] * pow;
+        vectorY -= SENSOR_Ky[i] * pow;
     }
     float correction = LimitToInterval(vectorY * K_CORRECTION, -BASE_SPEED_PERCENT, BASE_SPEED_PERCENT);
     //Control
@@ -207,14 +211,21 @@ void SetNextRobotStateInAutomaticMode(void){
         rightMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT + correction, 0, BASE_SPEED_PERCENT);
     }
     
-    
+#if 1
+    LED_BLANCHE_1 = vectorY >= 10;
+    LED_BLEUE_1 = vectorY >= 5;
+    LED_ORANGE_1 = vectorY == 0;
+    LED_ROUGE_1 = vectorY <= -5;
+    LED_VERTE_1 = vectorY <= -10;
+#else
     LED_BLANCHE_1 = -vectorX >= 0;
     LED_BLEUE_1 = -vectorX >= 5;
     LED_ORANGE_1 = -vectorX >= 10;
     LED_ROUGE_1 = -vectorX >= 15;
     LED_VERTE_1 = -vectorX >= 20;
+#endif
     
-    //LED_BLANCHE_2 = 
+    LED_BLANCHE_2 = stateRobot == STATE_TRY_EXIT || stateRobot == STATE_TRY_EXIT_ONGOING;
     LED_BLEUE_2 = stateRobot == STATE_FIND_EXIT || stateRobot == STATE_FIND_EXIT_ONGOING;
     LED_ORANGE_2 = stateRobot == STATE_EVADE || stateRobot == STATE_EVADE_ONGOING;
     LED_ROUGE_2 = stateRobot == STATE_FORWARD_CONTROLED || stateRobot == STATE_FORWARD_CONTROLED_ONGOING;
@@ -226,10 +237,4 @@ void SetNextRobotStateInAutomaticMode(void){
     LED_BLEUE_2 = robotState.distanceTelemetreCentre <=30;
     LED_BLANCHE_2 = robotState.distanceTelemetreCentre <=20;
      */
-}
-
-float repulsePow(float dist){
-    if(dist>= MAX_DIST) dist = MAX_DIST;
-    if(dist<= MIN_DIST) dist = MIN_DIST;
-    return K_REPULSE / (dist * dist);
 }
