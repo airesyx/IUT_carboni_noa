@@ -11,17 +11,16 @@
 
 #define K_REPULSE 1000
 #define K_ANGLE_CORRECTION 2
-#define K_SPEED_CORRECTION 2
+#define K_SPEED_CORRECTION 3.85
 #define EXIT_DELTA 10
-#define SECURITY_DISTANCE_FRONT 9
-#define SECURITY_DISTANCE_SIDE 9 //lucasloss
+#define SECURITY_DISTANCE 3
 #define ATTEMPT_FOR_STRAIT 5 //lucasloss
 
 #define BASE_SPEED_PERCENT 25
 #define EVADE_SPEED_PERCENT 10
 #define EXIT_SPEED_PERCENT 10
 
-#define ESQUIVE_TH_H 16 //Engage Esquive 
+#define ESQUIVE_TH_H 13.5 //Engage Esquive 
 #define ESQUIVE_TH_L 10//Disengage Esquive
 #define MAX_EVADE_ITERATION 4000 //Nb of iteration before ineterpretting as stuck (1kHz)
 #define MAX_EVADE_DIST_CHECK_ITERATION MAX_EVADE_ITERATION + 500 //Nb of iteration before engaging exit finding

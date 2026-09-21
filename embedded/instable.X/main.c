@@ -49,11 +49,11 @@ LED_VERTE_2 = 0;
             float volts = ((float) result [0])* 3.3 / 4096;
             robotState.distanceTelemetreEGauche = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
             volts = ((float) result [1])* 3.3 / 4096;
-            robotState.distanceTelemetreGauche = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST) - SECURITY_DISTANCE_SIDE;
+            robotState.distanceTelemetreGauche = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
             volts = ((float) result [2])* 3.3 / 4096;
-            robotState.distanceTelemetreCentre = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST) - SECURITY_DISTANCE_FRONT;
+            robotState.distanceTelemetreCentre = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST) - SECURITY_DISTANCE;
             volts = ((float) result [3])* 3.3 / 4096;
-            robotState.distanceTelemetreDroit = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST)- SECURITY_DISTANCE_SIDE;
+            robotState.distanceTelemetreDroit = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
             volts = ((float) result [4])* 3.3 / 4096;
             robotState.distanceTelemetreEDroit = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
         }
@@ -144,7 +144,7 @@ void SetNextRobotStateInAutomaticMode(void){
         vectorY -= SENSOR_SIN[i] * pow;
     }
     float angleCorrection = LimitToInterval(vectorY * K_ANGLE_CORRECTION, -BASE_SPEED_PERCENT, BASE_SPEED_PERCENT);
-    float speedCorrection = LimitToInterval(vectorX * K_SPEED_CORRECTION, 0.25, 1);
+    float speedCorrection = LimitToInterval(K_SPEED_CORRECTION / vectorX, 0.5, 1);
     //Control
     static unsigned int iterationCount = 0;
     static float minVectorX = 0.0;
@@ -204,8 +204,8 @@ void SetNextRobotStateInAutomaticMode(void){
         
     }
     else if(stateRobot == STATE_FORWARD_CONTROLED){
-        leftMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT - angleCorrection, 0, BASE_SPEED_PERCENT)*;
-        rightMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT + angleCorrection, 0, BASE_SPEED_PERCENT)*;
+        leftMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT - angleCorrection, 0, BASE_SPEED_PERCENT) * speedCorrection;
+        rightMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT + angleCorrection, 0, BASE_SPEED_PERCENT) * speedCorrection;
     }
   /*  
 #if 0
