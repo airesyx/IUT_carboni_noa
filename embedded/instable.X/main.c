@@ -49,11 +49,11 @@ LED_VERTE_2 = 0;
             float volts = ((float) result [0])* 3.3 / 4096;
             robotState.distanceTelemetreEGauche = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
             volts = ((float) result [1])* 3.3 / 4096;
-            robotState.distanceTelemetreGauche = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
+            robotState.distanceTelemetreGauche = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST) - SECURITY_DISTANCE_SIDE;
             volts = ((float) result [2])* 3.3 / 4096;
-            robotState.distanceTelemetreCentre = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
+            robotState.distanceTelemetreCentre = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST) - SECURITY_DISTANCE_FRONT;
             volts = ((float) result [3])* 3.3 / 4096;
-            robotState.distanceTelemetreDroit = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
+            robotState.distanceTelemetreDroit = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST)- SECURITY_DISTANCE_SIDE;
             volts = ((float) result [4])* 3.3 / 4096;
             robotState.distanceTelemetreEDroit = LimitToInterval(34 / volts - 5, MIN_DIST, MAX_DIST);
         }
@@ -80,7 +80,7 @@ void OperatingSystemLoop(void){
         
         case STATE_FORWARD:
             PWMSetSpeedConsigne(BASE_SPEED_PERCENT, MOTEUR_DROIT);
-            PWMSetSpeedConsigne(BASE_SPEED_PERCENT, MOTEUR_GAUCHE);
+            PWMSetSpeedConsigne(BASE_SPEED_PERCENT + ATTEMPT_FOR_STRAIT, MOTEUR_GAUCHE); //lucasloss
             stateRobot = STATE_FORWARD_ONGOING;
         break;
         
@@ -91,10 +91,6 @@ void OperatingSystemLoop(void){
         case STATE_FORWARD_CONTROLED:
             PWMSetSpeedConsigne(rightMotorSpeed, MOTEUR_DROIT);
             PWMSetSpeedConsigne(leftMotorSpeed, MOTEUR_GAUCHE);
-            stateRobot = STATE_FORWARD_CONTROLED_ONGOING;
-        break;
-        
-        case STATE_FORWARD_CONTROLED_ONGOING:
             SetNextRobotStateInAutomaticMode();
         break;
         
@@ -127,8 +123,8 @@ void OperatingSystemLoop(void){
 #endif
 }
 
-const float SENSOR_Kx[SENSOR_NB] = {0.50000000000000, 0.86602540378444, 4.50000000000000, 0.86602540378444, 0.50000000000000};//EGauche, Gauche, Centre, Droit, EDroit
-const float SENSOR_Ky[SENSOR_NB] = {0.86602540378444, 0.50000000000000, 0.00000000000000, -0.50000000000000, -0.86602540378444};//EGauche, Gauche, Centre, Droit, EDroit
+const float SENSOR_COS[SENSOR_NB] = {0.50000000000000, 0.86602540378444, 1.00000000000000, 0.86602540378444, 0.50000000000000};//EGauche, Gauche, Centre, Droit, EDroit
+const float SENSOR_SIN[SENSOR_NB] = {0.86602540378444, 0.50000000000000, 0.00000000000000, -0.50000000000000, -0.86602540378444};//EGauche, Gauche, Centre, Droit, EDroit
 unsigned char nextStateRobot = 0;
 float vectorX = 0.0;
 float vectorY = 0.0;
@@ -144,16 +140,17 @@ void SetNextRobotStateInAutomaticMode(void){
     vectorY = 0.0;
     for(uint8_t i = 0; i < SENSOR_NB; i++){
         float pow = K_REPULSE / (dist[i] * dist[i]);
-        vectorX -= SENSOR_Kx[i] * pow;
-        vectorY -= SENSOR_Ky[i] * pow;
+        vectorX += SENSOR_COS[i] * pow;
+        vectorY -= SENSOR_SIN[i] * pow;
     }
-    float correction = LimitToInterval(vectorY * K_CORRECTION, -BASE_SPEED_PERCENT, BASE_SPEED_PERCENT);
+    float angleCorrection = LimitToInterval(vectorY * K_ANGLE_CORRECTION, -BASE_SPEED_PERCENT, BASE_SPEED_PERCENT);
+    float speedCorrection = LimitToInterval(vectorX * K_SPEED_CORRECTION, 0.25, 1);
     //Control
     static unsigned int iterationCount = 0;
     static float minVectorX = 0.0;
     static float lastMinVectorX = 0.0;
     if(stateRobot != STATE_EVADE_ONGOING){
-        if( -vectorX >= ESQUIVE_TH_H){
+        if( vectorX >= ESQUIVE_TH_H){
             iterationCount = 0;
             lastMinVectorX = 0;
             stateRobot = STATE_EVADE;
@@ -167,7 +164,7 @@ void SetNextRobotStateInAutomaticMode(void){
     }
     else if(stateRobot == STATE_EVADE_ONGOING){
         if(iterationCount < MAX_EVADE_ITERATION){
-            if( -vectorX <= ESQUIVE_TH_L){
+            if( vectorX <= ESQUIVE_TH_L){
                 stateRobot = STATE_FORWARD;
             }
             if(minVectorX > vectorX){
@@ -194,7 +191,7 @@ void SetNextRobotStateInAutomaticMode(void){
         }
     }
     else if (stateRobot == STATE_FIND_EXIT_ONGOING){ //Needs Work (After finding potential exit try going forward, if vectorX rising : stop until vectorX goes down or try again after x amount of time)
-        if( (lastMinVectorX - vectorY) < EXIT_DELTA){
+        if( (lastMinVectorX - vectorX) < EXIT_DELTA){
             stateRobot = STATE_TRY_EXIT;
         }
         iterationCount += 1;
@@ -206,12 +203,12 @@ void SetNextRobotStateInAutomaticMode(void){
         rightMotorSpeed = -leftMotorSpeed;
         
     }
-    else if(stateRobot == STATE_FORWARD_CONTROLED || stateRobot == STATE_FORWARD_CONTROLED_ONGOING){
-        leftMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT - correction, 0, BASE_SPEED_PERCENT);
-        rightMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT + correction, 0, BASE_SPEED_PERCENT);
+    else if(stateRobot == STATE_FORWARD_CONTROLED){
+        leftMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT - angleCorrection, 0, BASE_SPEED_PERCENT)*;
+        rightMotorSpeed = LimitToInterval(BASE_SPEED_PERCENT + angleCorrection, 0, BASE_SPEED_PERCENT)*;
     }
-    
-#if 1
+  /*  
+#if 0
     LED_BLANCHE_1 = vectorY >= 10;
     LED_BLEUE_1 = vectorY >= 5;
     LED_ORANGE_1 = vectorY == 0;
@@ -224,12 +221,19 @@ void SetNextRobotStateInAutomaticMode(void){
     LED_ROUGE_1 = -vectorX >= 15;
     LED_VERTE_1 = -vectorX >= 20;
 #endif
-    
+    */
     LED_BLANCHE_2 = stateRobot == STATE_TRY_EXIT || stateRobot == STATE_TRY_EXIT_ONGOING;
     LED_BLEUE_2 = stateRobot == STATE_FIND_EXIT || stateRobot == STATE_FIND_EXIT_ONGOING;
     LED_ORANGE_2 = stateRobot == STATE_EVADE || stateRobot == STATE_EVADE_ONGOING;
     LED_ROUGE_2 = stateRobot == STATE_FORWARD_CONTROLED || stateRobot == STATE_FORWARD_CONTROLED_ONGOING;
     LED_VERTE_2 = stateRobot == STATE_FORWARD || stateRobot == STATE_FORWARD_ONGOING;
+    
+    LED_BLANCHE_1 = stateRobot == STATE_TRY_EXIT || stateRobot == STATE_TRY_EXIT_ONGOING;
+    LED_BLEUE_1 = stateRobot == STATE_FIND_EXIT || stateRobot == STATE_FIND_EXIT_ONGOING;
+    LED_ORANGE_1 = stateRobot == STATE_EVADE || stateRobot == STATE_EVADE_ONGOING;
+    LED_ROUGE_1 = stateRobot == STATE_FORWARD_CONTROLED || stateRobot == STATE_FORWARD_CONTROLED_ONGOING;
+    LED_VERTE_1 = stateRobot == STATE_FORWARD || stateRobot == STATE_FORWARD_ONGOING;
+    
     /*
     LED_VERTE_2 = robotState.distanceTelemetreCentre <=60;
     LED_ROUGE_2 = robotState.distanceTelemetreCentre <=50;

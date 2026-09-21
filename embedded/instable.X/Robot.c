@@ -4,7 +4,7 @@
 
 volatile ROBOT_STATE_BITS robotState;
 
-float acceleration = 30;
+float acceleration = 100;
 double talon = 50;
 void PWMUpdateSpeed(){
     if(robotState.vitesseGaucheCommandeCourante < robotState.vitesseGaucheConsigne){
