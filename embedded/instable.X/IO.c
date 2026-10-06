@@ -36,7 +36,8 @@ void InitIO()
     //****** Moteurs ************************
 
     // Configuration des entrées
-    
+    _TRISH0 = 1;
+    _TRISH2 = 1;
 
     /****************************************************************************************************/
     // Gestion des pin remappables

@@ -6,6 +6,7 @@
 #include "Robot.h"
 #include "ADC.h"
 
+
 //Initialisation d?un timer 16 bits
 
 void InitTimer1(void) {
@@ -21,8 +22,8 @@ void InitTimer1(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
-    PWMUpdateSpeed();
     ADC1StartConversionSequence();
+    PWMUpdateSpeed();
 }
 //Initialisation d?un timer 32 bits
 
@@ -59,7 +60,9 @@ unsigned long timestamp = 0;
 void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void){
     IFS1bits.T4IF = 0;
     timestamp += 1;
-    OperatingSystemLoop();
+    if(robotState.active){
+        OperatingSystemLoop();
+    }
 }
 
 

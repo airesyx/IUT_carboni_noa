@@ -14,6 +14,9 @@
 #define LED_ROUGE_2 _LATA10
 #define LED_VERTE_2 _LATH3
 
+#define BT1 _RH0
+#define BT2 _RH2
+
 // Prototypes fonctions
 void InitIO();
 void LockIO();

@@ -10,39 +10,58 @@
 #include "Toolbox.h"
 #include "ADC.h"
 
+unsigned char stateRobot;
 int main (void){
-//Initialisation oscillateur
-InitOscillator();
+    //Initialisation oscillateur
+    InitOscillator();
 
-//Configuration des input et output (IO)
-InitIO();
+    //Configuration des input et output (IO)
+    InitIO();
+    
+    //Initialisation des timers
+    InitTimer1();
+    InitTimer23();
+    InitTimer4();
 
-//Initialisation des timers
-InitTimer1();
-InitTimer23();
-InitTimer4();
+    //Initialisation PWM
+    InitPWM();
 
-//Initialisation PWM
-InitPWM();
+    //Initialisation ADC1
+    InitADC1();
+    
+    robotState.active = 0;
 
-//Initialisation ADC1
-InitADC1();
+    LED_BLANCHE_1 = 0;
+    LED_BLEUE_1 = 0;
+    LED_ORANGE_1 = 0;
+    LED_ROUGE_1 = 0;
+    LED_VERTE_1 = 0;
 
-LED_BLANCHE_1 = 0;
-LED_BLEUE_1 = 0;
-LED_ORANGE_1 = 0;
-LED_ROUGE_1 = 0;
-LED_VERTE_1 = 0;
-
-LED_BLANCHE_2 = 0;
-LED_BLEUE_2 = 0;
-LED_ORANGE_2 = 0;
-LED_ROUGE_2 = 0;
-LED_VERTE_2 = 0;
+    LED_BLANCHE_2 = 0;
+    LED_BLEUE_2 = 0;
+    LED_ORANGE_2 = 0;
+    LED_ROUGE_2 = 0;
+    LED_VERTE_2 = 0;
 
 // Boucle Principale
     while(1)
     {
+        if(robotState.active){
+            if(timestamp >= 60000 || BT2){
+                robotState.active = 0;
+            }
+        }
+        else {
+            if(BT1){
+                robotState.active = 1;
+                stateRobot = STATE_WAIT;
+            }
+            PWMSetSpeedConsigne(0, MOTEUR_DROIT);
+            PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
+            SetNextRobotStateInAutomaticMode();
+            timestamp = 0;
+        }
+        
         if(ADCIsConversionFinished()){
             ADCClearConversionFinishedFlag();
             unsigned int * result = ADCGetResult();
@@ -60,11 +79,9 @@ LED_VERTE_2 = 0;
     } // fin main
 }
 
-unsigned char stateRobot;
 float leftMotorSpeed = 0.0;
 float rightMotorSpeed = 0.0;
 void OperatingSystemLoop(void){
-#ifndef __STOP_MOTORS__ 
     switch (stateRobot){     
         case STATE_WAIT:
             timestamp = 0;
@@ -74,7 +91,7 @@ void OperatingSystemLoop(void){
         break;
         
         case STATE_WAIT_ONGOING:
-            if (timestamp > 2000)
+            if (timestamp > 1000)
                 stateRobot = STATE_FORWARD;
         break;
         
@@ -118,9 +135,6 @@ void OperatingSystemLoop(void){
             stateRobot = STATE_WAIT;
         break;
     }
-#else
-    SetNextRobotStateInAutomaticMode();
-#endif
 }
 
 const float SENSOR_COS[SENSOR_NB] = {0.50000000000000, 0.86602540378444, 1.00000000000000, 0.86602540378444, 0.50000000000000};//EGauche, Gauche, Centre, Droit, EDroit
@@ -144,7 +158,7 @@ void SetNextRobotStateInAutomaticMode(void){
         vectorY -= SENSOR_SIN[i] * pow;
     }
     float angleCorrection = LimitToInterval(vectorY * K_ANGLE_CORRECTION, -BASE_SPEED_PERCENT, BASE_SPEED_PERCENT);
-    float speedCorrection = LimitToInterval(K_SPEED_CORRECTION / vectorX, 0.5, 1);
+    float speedCorrection = LimitToInterval(K_SPEED_CORRECTION / vectorX, 0.45, 1);
     //Control
     static unsigned int iterationCount = 0;
     static float minVectorX = 0.0;
@@ -228,11 +242,11 @@ void SetNextRobotStateInAutomaticMode(void){
     LED_ROUGE_2 = stateRobot == STATE_FORWARD_CONTROLED || stateRobot == STATE_FORWARD_CONTROLED_ONGOING;
     LED_VERTE_2 = stateRobot == STATE_FORWARD || stateRobot == STATE_FORWARD_ONGOING;
     
-    LED_BLANCHE_1 = stateRobot == STATE_TRY_EXIT || stateRobot == STATE_TRY_EXIT_ONGOING;
+    LED_BLANCHE_1 = vectorY>0;
     LED_BLEUE_1 = stateRobot == STATE_FIND_EXIT || stateRobot == STATE_FIND_EXIT_ONGOING;
     LED_ORANGE_1 = stateRobot == STATE_EVADE || stateRobot == STATE_EVADE_ONGOING;
     LED_ROUGE_1 = stateRobot == STATE_FORWARD_CONTROLED || stateRobot == STATE_FORWARD_CONTROLED_ONGOING;
-    LED_VERTE_1 = stateRobot == STATE_FORWARD || stateRobot == STATE_FORWARD_ONGOING;
+    LED_VERTE_1 = vectorY<0;
     
     /*
     LED_VERTE_2 = robotState.distanceTelemetreCentre <=60;

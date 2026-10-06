@@ -3,8 +3,7 @@
 #include "Toolbox.h"
 
 volatile ROBOT_STATE_BITS robotState;
-
-float acceleration = 100;
+float acceleration = 500;
 double talon = 50;
 void PWMUpdateSpeed(){
     if(robotState.vitesseGaucheCommandeCourante < robotState.vitesseGaucheConsigne){

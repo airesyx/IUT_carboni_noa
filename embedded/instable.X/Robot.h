@@ -2,6 +2,7 @@
 #define ROBOT_H
 typedef struct robotStateBITS {
     unsigned char taskEnCours;
+    uint8_t active;
     
     //Vitesse
     float vitesseGaucheConsigne;
