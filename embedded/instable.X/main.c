@@ -52,13 +52,15 @@ int main (void){
             }
         }
         else {
+            PWMSetSpeedConsigne(0, MOTEUR_DROIT);
+            PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
+            SetNextRobotStateInAutomaticMode();
+            
             if(BT1){
                 robotState.active = 1;
                 stateRobot = STATE_WAIT;
             }
-            PWMSetSpeedConsigne(0, MOTEUR_DROIT);
-            PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
-            SetNextRobotStateInAutomaticMode();
+            
             timestamp = 0;
         }
         
