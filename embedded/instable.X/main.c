@@ -93,8 +93,10 @@ void OperatingSystemLoop(void){
         break;
         
         case STATE_WAIT_ONGOING:
-            if (timestamp >= 1000)
+            if (timestamp >= 1000){
                 stateRobot = STATE_FORWARD;
+                timestamp = 0;
+            }
         break;
         
         case STATE_FORWARD:

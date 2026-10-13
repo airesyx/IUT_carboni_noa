@@ -5,21 +5,21 @@
 #define FCY 60000000 //Timer Clock Frequency
 
 #define SENSOR_NB 5
-#define MAX_DIST 50
+#define MAX_DIST 60
 #define MIN_DIST 10
 
 #define K_REPULSE 1275
-#define K_ANGLE_CORRECTION 2.85  //2.55
-#define K_SPEED_CORRECTION 3.5  //3.7065
+#define K_ANGLE_CORRECTION 2.84  //2.55
+#define K_SPEED_CORRECTION 3.5575  //3.7065
 #define EXIT_DELTA 10
-#define SECURITY_DISTANCE 4.4
-#define ATTEMPT_FOR_STRAIT 0 //lucasloss
+#define SECURITY_DISTANCE 4.675
+#define ATTEMPT_FOR_STRAIT 0
 
-#define BASE_SPEED_PERCENT 27
+#define BASE_SPEED_PERCENT 26
 #define EVADE_SPEED_PERCENT 10
 #define EXIT_SPEED_PERCENT 10
 
-#define ESQUIVE_TH_H 12.2 //Engage Esquive 
+#define ESQUIVE_TH_H 12 //Engage Esquive 
 #define ESQUIVE_TH_L 10//Disengage Esquive
 #define MAX_EVADE_ITERATION 4000 //Nb of iteration before ineterpretting as stuck (1kHz)
 #define MAX_EVADE_DIST_CHECK_ITERATION MAX_EVADE_ITERATION + 500 //Nb of iteration before engaging exit finding
